@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:80"
+      - "3099:80"
     container_name: evolution-manager-v2
     restart: unless-stopped
     environment:
