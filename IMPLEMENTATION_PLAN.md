@@ -331,7 +331,7 @@ clientName: "evolution_v2"
 **DEPOIS:**
 ```
 apiUrl: "https://evolution-api.com"
-instanceToken: "8C55DEE95878-4C99-B866-30C3DD8C38EA" (Instance API Key)
+instanceToken: "INSTANCE_API_KEY" (Instance API Key)
 instanceId: "90386073-fee6-480b-a13b-132c5c015d85"
 instanceName: "numero_de_teste"
 version: "2.1.0"
@@ -383,13 +383,13 @@ if (instances.length === 1) {
 ```bash
 # Request
 GET /instance/fetchInstances
-Headers: { apikey: "8C55DEE95878-4C99-B866-30C3DD8C38EA" }
+Headers: { apikey: "INSTANCE_API_KEY" }
 
 # Expected Response
 [{
   "id": "90386073-fee6-480b-a13b-132c5c015d85",
   "name": "numero_de_teste",
-  "token": "8C55DEE95878-4C99-B866-30C3DD8C38EA",
+  "token": "INSTANCE_API_KEY",
   // ... outros campos
 }]
 
@@ -498,7 +498,7 @@ Headers: { apikey: "invalid-key" }
   "id": "90386073-fee6-480b-a13b-132c5c015d85",
   "name": "numero_de_teste",
   "connectionStatus": "connecting",
-  "token": "8C55DEE95878-4C99-B866-30C3DD8C38EA",
+  "token": "INSTANCE_API_KEY",
   "ownerJid": "554591026739@s.whatsapp.net",
   "profileName": "Techify 6",
   // ... outros campos

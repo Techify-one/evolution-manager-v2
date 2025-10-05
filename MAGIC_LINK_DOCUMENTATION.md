@@ -27,7 +27,7 @@ https://seu-servidor.com/manager/login?serverUrl={SERVER_URL}&apiKey={INSTANCE_A
 
 ### Exemplo Real
 ```
-https://evolution-teste.api-coolify.onlinecenter.com.br/manager/login?serverUrl=https://evolution-teste.api-coolify.onlinecenter.com.br&apiKey=8C55DEE95878-4C99-B866-30C3DD8C38EA
+https://evolution-teste.api-coolify.onlinecenter.com.br/manager/login?serverUrl=https://evolution-teste.api-coolify.onlinecenter.com.br&apiKey=INSTANCE_API_KEY
 ```
 
 ### Parâmetros Obrigatórios
@@ -35,7 +35,7 @@ https://evolution-teste.api-coolify.onlinecenter.com.br/manager/login?serverUrl=
 | Parâmetro | Descrição | Exemplo |
 |-----------|-----------|---------|
 | `serverUrl` | URL completa do servidor Evolution API | `https://evolution-api.com` |
-| `apiKey` | Instance API Key (não Global API Key) | `8C55DEE95878-4C99-B866-30C3DD8C38EA` |
+| `apiKey` | Instance API Key (não Global API Key) | `INSTANCE_API_KEY` |
 
 ---
 
@@ -49,12 +49,12 @@ https://seu-manager.com/manager/login?serverUrl=https://api.example.com&apiKey=A
 ### 2. **Link com URL Encoded (Recomendado)**
 ```javascript
 const serverUrl = "https://evolution-api.com";
-const apiKey = "8C55DEE95878-4C99-B866-30C3DD8C38EA";
+const apiKey = "INSTANCE_API_KEY";
 
 const magicLink = `/manager/login?serverUrl=${encodeURIComponent(serverUrl)}&apiKey=${encodeURIComponent(apiKey)}`;
 
 // Resultado:
-// /manager/login?serverUrl=https%3A%2F%2Fevolution-api.com&apiKey=8C55DEE95878-4C99-B866-30C3DD8C38EA
+// /manager/login?serverUrl=https%3A%2F%2Fevolution-api.com&apiKey=INSTANCE_API_KEY
 ```
 
 ### 3. **Gerar Magic Link Programaticamente**
@@ -72,11 +72,11 @@ function generateMagicLink(serverUrl, instanceApiKey) {
 // Uso:
 const link = generateMagicLink(
   "https://evolution-api.com",
-  "8C55DEE95878-4C99-B866-30C3DD8C38EA"
+  "INSTANCE_API_KEY"
 );
 
 console.log(link);
-// https://your-domain.com/manager/login?serverUrl=https%3A%2F%2Fevolution-api.com&apiKey=8C55DEE95878-4C99-B866-30C3DD8C38EA
+// https://your-domain.com/manager/login?serverUrl=https%3A%2F%2Fevolution-api.com&apiKey=INSTANCE_API_KEY
 ```
 
 ---
@@ -158,7 +158,7 @@ QRCode.toDataURL(magicLink, (err, url) => {
 
 1. Acesse a URL de login com parâmetros:
 ```
-http://localhost:5173/manager/login?serverUrl=https://evolution-teste.api-coolify.onlinecenter.com.br&apiKey=8C55DEE95878-4C99-B866-30C3DD8C38EA
+http://localhost:5173/manager/login?serverUrl=https://evolution-teste.api-coolify.onlinecenter.com.br&apiKey=INSTANCE_API_KEY
 ```
 
 2. O sistema deve:
@@ -171,7 +171,7 @@ http://localhost:5173/manager/login?serverUrl=https://evolution-teste.api-coolif
 Primeiro, valide que a API Key retorna 1 instância:
 ```bash
 curl --location 'https://evolution-teste.api-coolify.onlinecenter.com.br/instance/fetchInstances' \
---header 'apikey: 8C55DEE95878-4C99-B866-30C3DD8C38EA'
+--header 'apikey: INSTANCE_API_KEY'
 
 # Deve retornar array com 1 instância
 ```
@@ -265,7 +265,7 @@ function createEvolutionManagerMagicLink({
 // Uso:
 const magicLink = createEvolutionManagerMagicLink({
   serverUrl: "https://evolution-api.com",
-  instanceApiKey: "8C55DEE95878-4C99-B866-30C3DD8C38EA"
+  instanceApiKey: "INSTANCE_API_KEY"
 });
 
 // Compartilhar via:
