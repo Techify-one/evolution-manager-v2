@@ -4,12 +4,12 @@ services:
   evolution-manager:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.debug
       args:
-        # Variáveis de build-time
-        - VITE_EVOLUTION_API_URL=${VITE_EVOLUTION_API_URL:-http://localhost:8080}
-        - VITE_APP_NAME=${VITE_APP_NAME:-Evolution Manager}
-        - VITE_APP_VERSION=${VITE_APP_VERSION:-2.0.0}
+        - VITE_EVOLUTION_API_URL=http://localhost:8080
+        - VITE_APP_NAME=Evolution Manager
+        - VITE_APP_VERSION=2.0.0
+        - NODE_ENV=production
     ports:
       - "3099:80"
     container_name: evolution-manager-v2
@@ -18,6 +18,12 @@ services:
       - NODE_ENV=production
     networks:
       - evolution-network
+    # Adiciona logs detalhados
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 networks:
   evolution-network:
