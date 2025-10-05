@@ -79,11 +79,13 @@
     "description": "Por favor, faça login para continuar",
     "form": {
       "serverUrl": "URL do Servidor",
-      "apiKey": "Chave de API Global"
+      "apiKey": "Chave de API da Instância"
     },
     "message": {
       "invalidServer": "Servidor inválido",
-      "invalidCredentials": "Credenciais inválidas"
+      "invalidCredentials": "Chave de API inválida",
+      "globalKeyDetected": "Chave de API Global detectada. Por favor, use a Chave de API da Instância.",
+      "noInstanceFound": "Nenhuma instância encontrada com esta Chave de API"
     },
     "button": {
       "login": "Conectar"

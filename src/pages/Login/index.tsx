@@ -1,7 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { z } from "zod";
 
 import { Footer } from "@/components/footer";
@@ -10,7 +11,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Form, FormInput } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { verifyCreds } from "@/lib/queries/auth/verifyCreds";
+import { verifyInstanceKey } from "@/lib/queries/auth/verifyInstanceKey";
 import { verifyServer } from "@/lib/queries/auth/verifyServer";
 import { logout, saveToken } from "@/lib/queries/token";
 import { useTheme } from "@/components/theme-provider";
@@ -25,6 +26,9 @@ function Login() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { theme } = useTheme();
+  const [searchParams] = useSearchParams();
+  const hasAttemptedAutoLogin = useRef(false);
+
   const loginForm = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -45,15 +49,30 @@ function Login() {
       return;
     }
 
-    const verify = await verifyCreds({
-      token: data.apiKey,
+    const validation = await verifyInstanceKey({
+      apikey: data.apiKey,
       url: data.serverUrl,
     });
 
-    if (!verify) {
+    if (!validation.isValid) {
+      if (validation.isGlobalKey) {
+        loginForm.setError("apiKey", {
+          type: "manual",
+          message: t("login.message.globalKeyDetected"),
+        });
+      } else {
+        loginForm.setError("apiKey", {
+          type: "manual",
+          message: t("login.message.invalidCredentials"),
+        });
+      }
+      return;
+    }
+
+    if (!validation.instance) {
       loginForm.setError("apiKey", {
         type: "manual",
-        message: t("login.message.invalidCredentials"),
+        message: t("login.message.noInstanceFound"),
       });
       return;
     }
@@ -62,11 +81,32 @@ function Login() {
       version: server.version,
       clientName: server.clientName,
       url: data.serverUrl,
-      token: data.apiKey,
+      token: validation.instance.token,
+      instanceId: validation.instance.id,
+      instanceName: validation.instance.name,
     });
 
-    navigate("/manager/");
+    navigate(`/manager/instance/${validation.instance.id}/dashboard`);
   };
+
+  // Magic link auto-login: Check URL parameters
+  useEffect(() => {
+    if (hasAttemptedAutoLogin.current) return;
+
+    const serverUrlParam = searchParams.get("serverUrl");
+    const apiKeyParam = searchParams.get("apiKey");
+
+    if (serverUrlParam && apiKeyParam) {
+      hasAttemptedAutoLogin.current = true;
+      
+      // Set form values
+      loginForm.setValue("serverUrl", serverUrlParam);
+      loginForm.setValue("apiKey", apiKeyParam);
+
+      // Auto-submit the form
+      loginForm.handleSubmit(handleLogin)();
+    }
+  }, [searchParams, loginForm]);
 
   return (
     <div className="flex min-h-screen flex-col">

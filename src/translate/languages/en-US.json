@@ -99,11 +99,13 @@
     "description": "Please enter your credentials to continue",
     "form": {
       "serverUrl": "Server URL",
-      "apiKey": "API Key Global"
+      "apiKey": "Instance API Key"
     },
     "message": {
       "invalidServer": "Invalid server",
-      "invalidCredentials": "Invalid credentials"
+      "invalidCredentials": "Invalid API Key",
+      "globalKeyDetected": "Global API Key detected. Please use the Instance API Key.",
+      "noInstanceFound": "No instance found with this API Key"
     },
     "button": {
       "login": "Login"

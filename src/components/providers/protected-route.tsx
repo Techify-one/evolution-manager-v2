@@ -9,10 +9,11 @@ type ProtectedRouteProps = {
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const apiUrl = getToken(TOKEN_ID.API_URL);
-  const token = getToken(TOKEN_ID.TOKEN);
+  const instanceToken = getToken(TOKEN_ID.INSTANCE_TOKEN);
+  const instanceId = getToken(TOKEN_ID.INSTANCE_ID);
   const version = getToken(TOKEN_ID.VERSION);
 
-  if (!apiUrl || !token || !version) {
+  if (!apiUrl || !instanceToken || !instanceId || !version) {
     return <Navigate to="/manager/login" />;
   }
 

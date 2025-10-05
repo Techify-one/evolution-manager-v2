@@ -79,11 +79,13 @@
     "description": "Por favor, inicia sesión para continuar",
     "form": {
       "serverUrl": "URL del Servidor",
-      "apiKey": "Clave API Global"
+      "apiKey": "Clave API de Instancia"
     },
     "message": {
       "invalidServer": "Servidor inválido",
-      "invalidCredentials": "Credenciales inválidas"
+      "invalidCredentials": "Clave API inválida",
+      "globalKeyDetected": "Clave API Global detectada. Por favor, use la Clave API de Instancia.",
+      "noInstanceFound": "No se encontró ninguna instancia con esta Clave API"
     },
     "button": {
       "login": "Conectar"

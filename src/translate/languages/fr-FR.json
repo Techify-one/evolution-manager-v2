@@ -78,11 +78,13 @@
     "description": "Veuillez vous connecter pour continuer",
     "form": {
       "serverUrl": "URL du Serveur",
-      "apiKey": "Clé API Globale"
+      "apiKey": "Clé API d'Instance"
     },
     "message": {
       "invalidServer": "Serveur invalide",
-      "invalidCredentials": "Identifiants invalides"
+      "invalidCredentials": "Clé API invalide",
+      "globalKeyDetected": "Clé API Globale détectée. Veuillez utiliser la Clé API d'Instance.",
+      "noInstanceFound": "Aucune instance trouvée avec cette Clé API"
     },
     "button": {
       "login": "Se connecter"

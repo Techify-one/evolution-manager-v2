@@ -1,7 +1,7 @@
 import { ChevronsUpDown, CircleUser, Cog, MessageCircle, RefreshCw } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { InstanceStatus } from "@/components/instance-status";
@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 
 import { useFetchInstances } from "@/lib/queries/instance/fetchInstances";
 import { useManageInstance } from "@/lib/queries/instance/manageInstance";
+import { getToken, TOKEN_ID } from "@/lib/queries/token";
 
 import { Instance } from "@/types/evolution.types";
 
@@ -22,6 +23,7 @@ import { NewInstance } from "./NewInstance";
 
 function Dashboard() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const [deleteConfirmation, setDeleteConfirmation] = useState<string | null>(null);
   const { deleteInstance, logout } = useManageInstance();
@@ -29,6 +31,14 @@ function Dashboard() {
   const [deleting, setDeleting] = useState<string[]>([]);
   const [searchStatus, setSearchStatus] = useState("all");
   const [nameSearch, setNameSearch] = useState("");
+
+  // Redirect to instance dashboard if instanceId exists (single-instance mode)
+  useEffect(() => {
+    const instanceId = getToken(TOKEN_ID.INSTANCE_ID);
+    if (instanceId) {
+      navigate(`/manager/instance/${instanceId}/dashboard`, { replace: true });
+    }
+  }, [navigate]);
 
   const resetTable = async () => {
     await refetch();

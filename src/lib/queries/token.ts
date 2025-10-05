@@ -15,6 +15,8 @@ export enum TOKEN_ID {
 interface SaveCredentialsParams {
   url?: string;
   token?: string;
+  instanceId?: string;
+  instanceName?: string;
   version?: string;
   facebookAppId?: string;
   facebookConfigId?: string;
@@ -28,7 +30,12 @@ export const saveToken = async (params: SaveCredentialsParams) => {
     localStorage.setItem(TOKEN_ID.API_URL, urlFormatted);
   }
 
-  if (params.token) localStorage.setItem(TOKEN_ID.TOKEN, params.token);
+  if (params.token) {
+    localStorage.setItem(TOKEN_ID.INSTANCE_TOKEN, params.token);
+    localStorage.setItem(TOKEN_ID.TOKEN, params.token);
+  }
+  if (params.instanceId) localStorage.setItem(TOKEN_ID.INSTANCE_ID, params.instanceId);
+  if (params.instanceName) localStorage.setItem(TOKEN_ID.INSTANCE_NAME, params.instanceName);
   if (params.version) localStorage.setItem(TOKEN_ID.VERSION, params.version);
   if (params.facebookAppId) localStorage.setItem(TOKEN_ID.FACEBOOK_APP_ID, params.facebookAppId);
   if (params.facebookConfigId) localStorage.setItem(TOKEN_ID.FACEBOOK_CONFIG_ID, params.facebookConfigId);
@@ -39,6 +46,9 @@ export const saveToken = async (params: SaveCredentialsParams) => {
 export const logout = () => {
   localStorage.removeItem(TOKEN_ID.API_URL);
   localStorage.removeItem(TOKEN_ID.TOKEN);
+  localStorage.removeItem(TOKEN_ID.INSTANCE_ID);
+  localStorage.removeItem(TOKEN_ID.INSTANCE_NAME);
+  localStorage.removeItem(TOKEN_ID.INSTANCE_TOKEN);
   localStorage.removeItem(TOKEN_ID.VERSION);
   localStorage.removeItem(TOKEN_ID.FACEBOOK_APP_ID);
   localStorage.removeItem(TOKEN_ID.FACEBOOK_CONFIG_ID);
