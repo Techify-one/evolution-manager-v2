@@ -6,10 +6,23 @@ import { useNavigate } from "react-router-dom";
 import { useTheme } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/mode-toggle";
 import { LanguageToggle } from "@/components/language-toggle";
+import { useEffect } from "react";
+import { getToken, TOKEN_ID } from "@/lib/queries/token";
 
 export default function Home() {
   const navigate = useNavigate();
   const { theme } = useTheme();
+
+  useEffect(() => {
+    const apiUrl = getToken(TOKEN_ID.API_URL);
+    const instanceToken = getToken(TOKEN_ID.INSTANCE_TOKEN);
+    const instanceId = getToken(TOKEN_ID.INSTANCE_ID);
+    const version = getToken(TOKEN_ID.VERSION);
+
+    if (apiUrl && instanceToken && instanceId && version) {
+      navigate(`/manager/instance/${instanceId}/dashboard`, { replace: true });
+    }
+  }, [navigate]);
 
   const handleGoToManager = () => {
     navigate("/manager");
