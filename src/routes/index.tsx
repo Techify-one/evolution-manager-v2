@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import ProtectedRoute from "@/components/providers/protected-route";
 import PublicRoute from "@/components/providers/public-route";
@@ -26,11 +26,25 @@ import { Webhook } from "@/pages/instance/Webhook";
 import { Websocket } from "@/pages/instance/Websocket";
 import Login from "@/pages/Login";
 import Home from "@/pages/Home";
+import { getToken, TOKEN_ID } from "@/lib/queries/token";
+
+function HomeRedirect() {
+  const instanceId = getToken(TOKEN_ID.INSTANCE_ID);
+  const apiUrl = getToken(TOKEN_ID.API_URL);
+  const instanceToken = getToken(TOKEN_ID.INSTANCE_TOKEN);
+  const version = getToken(TOKEN_ID.VERSION);
+
+  if (apiUrl && instanceToken && instanceId && version) {
+    return <Navigate to={`/manager/instance/${instanceId}/dashboard`} replace />;
+  }
+
+  return <Home />;
+}
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: <HomeRedirect />,
   },
   {
     path: "/manager/login",
